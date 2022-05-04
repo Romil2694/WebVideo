@@ -1,0 +1,2246 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIOT</title>
+    <link rel="stylesheet" href="{% static '/Dashboard.css' %}">
+    <link rel="stylesheet" href="{% static '/syncro.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-2.6.3.min.js'></script>
+    <script src="{% static '/RGraph.common.core.js' %}"></script>
+    <script src="{% static '/RGraph.common.dynamic.js' %}"></script>
+    <script src="{% static '/RGraph.segmented.js' %}"></script>
+
+
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="container">
+            <a class="Logo" href="#">E<span>LS</span></a>
+            <a class="console" href="{% url 'console' %}">Console</a>
+            <a class="anlysis" href="{% url 'analysis' %}">Analysis</a>
+            <a class="maintenance" href="{% url 'maintenance' %}">Maintenance</a>
+            <a class="webv" href="{% url 'webvideo' %}">Web Video</a>
+            <ul class="secondary-nav">
+                <li class="logout header-logout"><a href="{% url 'login_page' %}">Logout</a></li>
+                <li><img class="im" src="{% static '/SACASL.jpeg' %}" alt="logo"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!--<div style="display: flex;align-items: center;justify-content: space-between;">
+            <div class="dropdown">
+                <button class="dropbtn">Machine 1</button>
+                <div class="dropdown-content">
+                    <a href="#">Machine 2</a>
+                    <a href="#">Machine 3</a>
+                    <a href="#">Machine 4</a>
+                    <a href="#">Machine 5</a>
+                    <a href="#">Machine 6</a>
+                    <a href="#">Machine 7</a>
+                    <a href="#">Machine 8</a>
+                    <a href="#">Machine 9</a>
+                    <a href="#">Machine 10</a>
+                </div>
+            </div>
+            <div class="body-logout"><a href="/logout/">Logout</a></div>
+        </div>-->
+
+        <div class="main-row">
+            <div class="container1 section1-sub1" style="">
+                <div class="stateblock">
+                    <div class="statespeed">
+                        <h3 class="statehead">STATE</h3>
+                        <div class="indicators">
+                            <input type="button" id="btn1" class="machine1" value="M/C1">
+                            <div>
+                                <p class="mstop">STOP</p>
+                                <p class="mstart">RUNNING</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="statespeed1">
+                        <canvas id="ohmotor" class="machinespeed" style="height:150px; width:280px; margin-top: 8px;">
+                        </canvas>
+
+                    </div>
+                </div>
+                <div class="stateblock1">
+                    <div class="line-chart-block block">
+                        <h2 class="titular">Machine Speed Graph</h2>
+                        <div class="line-chart">
+                            <canvas id="myChart1" style="width:100%;max-width:600px"></canvas>
+                            <div class='grafico'>
+                                <ul class='axis-y'>
+                                    <li data-ejeY='500'></li>
+                                    <li data-ejeY='400'></li>
+                                    <li data-ejeY='300'></li>
+                                    <li data-ejeY='200'></li>
+                                    <li data-ejeY='100'></li>
+                                    <li data-ejeY='50'></li>
+                                    <li data-ejeY='0'></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container1 section1-sub2" style="">
+                <div class="stateblock1">
+                    <div class="donut-chart">
+                        <h2 class="titular">OCCURRENCE</h2>
+                        <canvas id="graph"></canvas>
+
+                    </div>
+                    <div class="notations">
+                        <ul class="notation horizontal-list">
+                            <li>
+                                <p class="nstop">STOP</p>
+                                <p id="stop" class="notation1">2</p>
+                            </li>
+                            <li>
+                                <p class="nemergency">EMERGENCY</p>
+                                <p id="eme" class="notation2">3</p>
+                            </li>
+                            <li>
+                                <p class="nbreakdown">BREAKDOWN</p>
+                                <p id="break" class="notation3">5</p>
+                            </li>
+                            <li>
+                                <p class="npowergone">POWERGONE</p>
+                                <p id="power" class="notation4">1</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="container1 section1-sub3" style="">
+                <div class="stateblock1">
+                    <div class="time-graph">
+                        <h2 class="titular" style="margin-left: 54px;">Machine State Time</h2>
+                        <canvas id="myChart" style="width:100%;max-width:400px;height: 500px;margin-left: 50px;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container1 section1-sub4" style="">
+                <div class="prevmainblock">
+                    <div class="motorbutton">
+                        <button id="M1temp" class="M1temp" type="submit" onclick="Motor1Temp()" style="background-color: #800000;">M1</button>
+                        <button id="M2temp" class="M2temp" type="submit" onclick="Motor2Temp()">M2</button>
+                        <button id="M3temp" class="M3temp" type="submit" onclick="Motor3Temp()">M3</button>
+                        <button id="M4temp" class="M4temp" type="submit" onclick="Motor4Temp()">M4</button>
+                        <button id="M5temp" class="M5temp" type="submit" onclick="Motor5Temp()">M5</button>
+                        <button id="M6temp" class="M6temp" type="submit" onclick="Motor6Temp()">M6</button>
+                        <button id="M7temp" class="M7temp" type="submit" onclick="Motor7Temp()">M7</button>
+                        <button id="M8temp" class="M8temp" type="submit" onclick="Motor8Temp()">M8</button>
+                        <button id="UW1Mtemp" class="UW1Mtemp" type="submit" onclick="UW1MotorTemp()">UW1</button>
+                        <button id="UW2Mtemp" class="UW2Mtemp" type="submit" onclick="UW2MotorTemp()">UW2</button>
+                        <button id="RW1Mtemp" class="RW1Mtemp" type="submit" onclick="RW1MotorTemp()">RW1</button>
+                        <button id="RW2Mtemp" class="RW2Mtemp" type="submit" onclick="RW2MotorTemp()">RW2</button>
+                        <button id="InMtemp" class="InMtemp" type="submit" onclick="InMotorTemp()">In</button>
+                        <button id="OutMtemp" class="OutMtemp" type="submit" onclick="OutMotorTemp()">Out</button>
+                    </div>
+
+                    <div id="M1" class="M1" style="display: block;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='motor1temp' class="motor1temp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="M2" class="M2" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='motor2temp' class="motor2temp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="M3" class="M3" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='motor3temp' class="motor3temp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="M4" class="M4" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='motor4temp' class="motor4temp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="M5" class="M5" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='motor5temp' class="motor5temp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="M6" class="M6" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='motor6temp' class="motor6temp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="M7" class="M7" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='motor7temp' class="motor7temp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="M8" class="M8" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='motor8temp' class="motor8temp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="UW1" class="UW1" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='uw1motortemp' class="uw1motortemp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="UW2" class="UW2" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='uw2motortemp' class="uw2motortemp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="RW1" class="RW1" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='rw1motortemp' class="rw1motortemp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="RW2" class="RW2" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='rw2motortemp' class="rw2motortemp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="Infeed" class="Infeed" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='inmotortemp' class="inmotortemp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="Outfeed" class="Outfeed" style="display: none;">
+                        <div class="side">
+                            <div class="motor1curside">
+                                <div id='outmotortemp' class="outmotortemp"></div>
+                            </div>
+
+                        </div>
+                        <div class="main">
+                            <div class="motor1main">
+                                <p class="motor1mainhead">MAINTENANCE HOURS</p>
+                                <p class="motor1mainval">125</p>
+                            </div>
+                            <div class="motor1remmain">
+                                <p class="motor1remhead">REMAINING HOURS</p>
+                                <p class="motor1remval">125</p>
+                            </div>
+                        </div>
+                        <div class="third">
+                            <div class="motor1curt">
+                                <p class="motor1curhead">RUN HOURS</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+                            <div class="motor1curmain">
+                                <p class="motor1curhead">HEALTH</p>
+                                <p class="motor1curval">125</p>
+                            </div>
+
+                        </div>
+                        <div class="runninghours-block">
+                            <h3 class="prevhead">Motor Running Hours</h3>
+                            <div class="sethrs">
+                                <ul class="os-percentages5 horizontal-list5">
+                                    <li>
+                                        <p id="setHours" class="runhrs">30Hrs</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="main-row">
+            <div class="container1 average section2-sub1" style="">
+                <div class="stateblock1">
+                    <div class="preventive-block">
+                        <h3 class="prevhead">Average Speed</h3>
+                        <div class="sethrs">
+                            <ul class="os-percentages5 horizontal-list5">
+                                <li>
+                                    <p class="avgspeed">200.0m/m</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="stateblock1">
+                    <div class="preventive-block">
+                        <h3 class="prevhead">Machine Running Time</h3>
+                        <div class="sethrs">
+                            <ul class="os-percentages5 horizontal-list5">
+                                <li>
+                                    <p id="mrtime" class="actruntime">296Hrs</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="stateblock1">
+                    <div class="preventive-block">
+                        <h3 class="prevhead">Machine STOP Time</h3>
+                        <div class="sethrs">
+                            <ul class="os-percentages5 horizontal-list5">
+                                <li>
+                                    <p id="mstime" class="actstoptime">20Hrs</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container1 section2-sub2" style="">
+                <div class="actualpr">
+                    <div style="padding: 50px; width: 100%; margin: auto;">
+                        <div data-stepped-bar=''>
+                        </div>
+                    </div>
+                    <script src="{% static '/syncro.js' %}"></script>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-row">
+            <div class="container1 average section3-sub1" style="">
+                <div class="stateblock1">
+                    <div class="preventive-block">
+                        <h3 class="prevhead">TARGET KM</h3>
+                        <div class="sethrs">
+                            <ul class="os-percentages5 horizontal-list5">
+                                <li>
+                                    <p class="avgspeed">200KM</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="stateblock1">
+                    <div class="preventive-block">
+                        <h3 class="prevhead">ACTUAL KM</h3>
+                        <div class="sethrs">
+                            <ul class="os-percentages5 horizontal-list5">
+                                <li>
+                                    <p id="mrtime" class="actruntime">10KM</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="stateblock1">
+                    <div class="preventive-block">
+                        <h3 class="prevhead">ACHIEVED</h3>
+                        <div class="sethrs">
+                            <ul class="os-percentages5 horizontal-list5">
+                                <li>
+                                    <p id="mstime" class="actstoptime">20%</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    var M1tempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 45,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var M1templayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('motor1temp', M1tempdata, M1templayout, {
+        displaylogo: false
+    });
+
+
+    var M2tempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 125,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var M2templayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('motor2temp', M2tempdata, M2templayout, {
+        displaylogo: false
+    });
+
+
+    var M3tempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 225,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var M3templayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('motor3temp', M3tempdata, M3templayout, {
+        displaylogo: false
+    });
+
+
+    var M4tempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 325,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var M4templayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('motor4temp', M4tempdata, M4templayout, {
+        displaylogo: false
+    });
+
+
+    var M5tempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 425,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var M5templayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('motor5temp', M5tempdata, M5templayout, {
+        displaylogo: false
+    });
+
+
+    var M6tempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 525,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var M6templayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('motor6temp', M6tempdata, M6templayout, {
+        displaylogo: false
+    });
+
+
+    var M7tempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 625,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var M7templayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('motor7temp', M7tempdata, M7templayout, {
+        displaylogo: false
+    });
+
+
+    var M8tempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 725,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var M8templayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('motor8temp', M8tempdata, M8templayout, {
+        displaylogo: false
+    });
+
+
+    var uw1Mtempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 825,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var uw1Mtemplayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('uw1motortemp', uw1Mtempdata, uw1Mtemplayout, {
+        displaylogo: false
+    });
+
+
+    var uw2Mtempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 925,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var uw2Mtemplayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('uw2motortemp', uw2Mtempdata, uw2Mtemplayout, {
+        displaylogo: false
+    });
+
+
+
+    var rw1Mtempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 195,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var rw1Mtemplayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('rw1motortemp', rw1Mtempdata, rw1Mtemplayout, {
+        displaylogo: false
+    });
+
+
+    var rw2Mtempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 95,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var rw2Mtemplayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('rw2motortemp', rw2Mtempdata, rw2Mtemplayout, {
+        displaylogo: false
+    });
+
+
+    var inMtempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 63,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var inMtemplayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('inmotortemp', inMtempdata, inMtemplayout, {
+        displaylogo: false
+    });
+
+    var outMtempdata = [{
+        domain: {
+            x: [0, 1],
+            y: [0, 1]
+        },
+        value: 19,
+        title: {
+            text: "Temp"
+        },
+        type: "indicator",
+        mode: "gauge+number+delta",
+        delta: {
+            reference: 380
+        },
+        gauge: {
+            axis: {
+                range: [null, 1000]
+            },
+            bar: {
+                color: "red"
+            },
+
+            threshold: {
+                line: {
+                    color: "green",
+                    width: 4
+                },
+                thickness: 0.75,
+                value: 890
+            }
+        }
+    }];
+
+    var outMtemplayout = {
+        width: 230,
+        height: 250,
+        paper_bgcolor: "lavender",
+        margin: {
+            l: 20,
+            t: 10,
+            b: 40,
+            r: 10,
+        }
+
+    };
+    Plotly.newPlot('outmotortemp', outMtempdata, outMtemplayout, {
+        displaylogo: false
+    });
+</script>
+
+<script>
+    data_url = "/index"
+    async function getData() {
+        const response = await fetch(data_url);
+        const data = await response.json();
+        const {
+            actual_speed,
+            machine_auto_mode
+        } = data;
+
+        if (MACHINE_AUTO_MODE == 0) {
+                document.getElementById('btn1').style.backgroundColor = 'red';
+            } else {
+                document.getElementById('btn1').style.backgroundColor = 'green';
+            }
+    }
+
+    setInterval(getData, 1000);
+</script>
+
+<script>
+    const xaxe = [06, 07, 08, 09, 10, 11, 12, 13, 14,15, 16, 17, 18, 19, 20, 21, 22,23,24];
+    const yaxe = [];
+    var speed = [];
+
+    const data2 = {
+             labels: xaxe,
+             datasets: [{
+                   fill: false,
+                   lineTension: 0,
+                   backgroundColor: "yellow",
+                   borderColor: "yellow",
+                   data: yaxe
+             }]
+    };
+
+    const config2 = {
+                type: "line",
+                data: data2,
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: 24
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: 500
+                            }
+                        }],
+                    }
+                }
+    };
+
+    const ctx2 = document.getElementById('myChart1');
+    const myChart2 = new Chart(ctx2, config2);
+
+    async function getData2() {
+            const response = await fetch(data_url);
+            const data = await response.json();
+            const {
+                actual_speed,
+            } = data;
+
+            updatelinechart();
+
+    }
+
+    function updatelinechart() {
+        yaxe.push(speed);
+        myChart2.update();
+
+    }
+
+    setInterval(getData2,10000);
+
+
+</script>
+
+
+<script>
+    data_url = "/index"
+    var st = [];
+    var em = [];
+    var bd = [];
+    var pg = [];
+    var yval = [];
+
+
+    const data1 = {
+            labels: ['STOP', 'EMERGENCY','BREAKDOWN','POWERGONE'],
+            datasets: [{
+              label: '',
+              data: [],
+              backgroundColor: [
+                '#e64c65',
+                '#11a8ab',
+                '#fcb150',
+                'maroon'
+              ],
+              borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+              ],
+              borderWidth: 1
+            }]
+    };
+    const config1 = {
+          type: 'doughnut',
+          data: data1,
+          options: {
+            cutoutPercentage: 70,
+            responsive: false,
+
+          }
+    };
+
+    const ctx1 = document.getElementById("graph");
+    const myChart1 = new Chart(ctx1, config1);
+
+    async function getData1() {
+            const response = await fetch(data_url);
+            const data = await response.json();
+            const {
+                machine_standby,
+                machine_estop,
+                BREAKDOWN,
+                POWERGONE,
+            } = data;
+            document.getElementById('stop').textContent = machine_standby;
+            document.getElementById('eme').textContent = machine_estop;
+            st = parseInt(data.machine_standby);
+            em = parseInt(data.machine_standby);
+            bd = parseInt(data.BREAKDOWN);
+            pg = parseInt(data.POWERGONE);
+            updatechart();
+
+    }
+
+    function updatechart() {
+        myChart1.data.datasets[0].data[0] = st;
+        myChart1.data.datasets[0].data[1] = em;
+        myChart1.data.datasets[0].data[2] = bd;
+        myChart1.data.datasets[0].data[3] = pg;
+        myChart1.update();
+
+
+    }
+
+    setInterval(getData1,1000);
+
+</script>
+
+<script>
+    data_url = "/index"
+    var yValues = [];
+    var RUNTIME = [];
+    var STOPTIME = [];
+    var IDLETIME = [];
+    var JCOTIME = [];
+    const data = {
+                labels: ['START', 'STOP', 'IDLE', 'JCO'],
+                datasets: [{
+                    data: yValues,
+                    backgroundColor: [
+                        "#FF7F50",
+                        "#DC143C",
+                        "#DC143C",
+                        "#FFFF00"
+                    ],
+
+                }]
+    };
+    const config = {
+            type: 'bar',
+            data,
+            options: {
+                legend: {
+                display: false
+            },
+                animation: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+
+                    }]
+                }
+            }
+    };
+
+    const ctx = document.getElementById('myChart');
+    const myChart = new Chart(ctx, config);
+
+
+     async function getData() {
+            const response = await fetch(data_url);
+            const data = await response.json();
+            const {
+                total_machine_run_time,
+                total_machine_time,
+                machine_manual_mode,
+                machine_standby
+
+            } = data;
+            RUNTIME = parseInt(data.total_machine_run_time);
+            STOPTIME = parseInt(data.total_machine_time);
+            IDLETIME = parseInt(data.machine_manual_mode);
+            JCOTIME = parseInt(data.machine_standby);
+            updateval();
+
+     }
+
+     function updateval() {
+        let oldvalues = yValues.splice(0,3);
+        yValues.push(RUNTIME,STOPTIME,IDLETIME);
+        myChart.update();
+
+     }
+      setInterval(getData,1000);
+
+</script>
+
+
+<script>
+    data_url = "/index"
+    var Speed = [];
+    var sp = Speed.toString(2);
+
+    const segmented = new RGraph.Segmented({
+        id: 'ohmotor',
+        min: 0,
+        max: 1000,
+        value: Speed,
+        options: {
+            width: '-15',
+            labelsCenterSpecific: sp,
+            labelCenterUnitsPost: 'RPM',
+            labelSize: 45,
+            backgroundColor: '#394264',
+            colors: ['green', 'white'],
+        }
+
+    })
+     async function getmachinespeed() {
+            const response = await fetch(data_url);
+            const data = await response.json();
+            const {
+                actual_speed,
+            } = data;
+            Speed = actual_speed;
+            speedupdate();
+    }
+
+
+
+     function speedupdate() {
+        segmented.value = Speed;
+        segmented.draw();
+     }
+    setInterval(getmachinespeed,1000);
+</script>
+
+<script>
+    function Motor1Temp() {
+        document.getElementById("M1").style.display = "block";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#800000';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function Motor2Temp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "block";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#800000';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+
+
+    }
+
+    function Motor3Temp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "block";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#800000';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function Motor4Temp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "block";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#800000';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+
+    }
+
+    function Motor5Temp() {
+
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "block";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#800000';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function Motor6Temp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "block";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#800000';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function Motor7Temp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "block";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#800000';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function Motor8Temp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "block";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#800000';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function UW1MotorTemp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "block";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#800000';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function UW2MotorTemp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "block";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#800000';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function RW1MotorTemp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "block";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#800000';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function RW2MotorTemp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "block";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#800000';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function InMotorTemp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "block";
+        document.getElementById("Outfeed").style.display = "none";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#800000';
+        document.getElementById("OutMtemp").style.backgroundColor = '#394264';
+    }
+
+    function OutMotorTemp() {
+        document.getElementById("M1").style.display = "none";
+        document.getElementById("M2").style.display = "none";
+        document.getElementById("M3").style.display = "none";
+        document.getElementById("M4").style.display = "none";
+        document.getElementById("M5").style.display = "none";
+        document.getElementById("M6").style.display = "none";
+        document.getElementById("M7").style.display = "none";
+        document.getElementById("M8").style.display = "none";
+        document.getElementById("UW1").style.display = "none";
+        document.getElementById("UW2").style.display = "none";
+        document.getElementById("RW1").style.display = "none";
+        document.getElementById("RW2").style.display = "none";
+        document.getElementById("Infeed").style.display = "none";
+        document.getElementById("Outfeed").style.display = "block";
+
+        document.getElementById("M1temp").style.backgroundColor = '#394264';
+        document.getElementById("M2temp").style.backgroundColor = '#394264';
+        document.getElementById("M3temp").style.backgroundColor = '#394264';
+        document.getElementById("M4temp").style.backgroundColor = '#394264';
+        document.getElementById("M5temp").style.backgroundColor = '#394264';
+        document.getElementById("M6temp").style.backgroundColor = '#394264';
+        document.getElementById("M7temp").style.backgroundColor = '#394264';
+        document.getElementById("M8temp").style.backgroundColor = '#394264';
+        document.getElementById("UW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("UW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW1Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("RW2Mtemp").style.backgroundColor = '#394264';
+        document.getElementById("InMtemp").style.backgroundColor = '#394264';
+        document.getElementById("OutMtemp").style.backgroundColor = '#800000';
+    }
+</script>
+
+</html>

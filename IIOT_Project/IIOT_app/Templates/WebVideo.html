@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/WebVideo.css' %}">
+    <title>Title</title>
+
+    <style>
+        h1 {
+        color: #333;
+        }
+        #videoElement {
+            background-color: #666;
+            object-fit: cover;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <a class="Logo" href="#">E<span>LS</span></a>
+
+            <a class="console" href="{% url 'console' %}">Console</a>
+            <a class="dashboard" href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="maintenance" href="{% url 'maintenance' %}">Maintenance</a>
+            <a class="analysis" href="{% url 'analysis' %}">Analysis</a>
+
+            <ul class="secondary-nav">
+                <li class="logout header-logout"><a href="{% url 'login_page' %}">Logout</a></li>
+                <li><img class="im" src="{% static '/SACASL.jpeg' %}" alt="logo"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="container">
+        <video width="1200" height="800" autoplay="true" id="videoElement">
+
+        </video>
+
+
+        <div class="drop-zone">
+            <span class="drop-zone__prompt">Drop file here or click to upload</span>
+            <input type="file" name="myFile" class="drop-zone__input">
+        </div>
+    </div>
+
+    <script src="{% static '/ddrop.js' %}"></script>
+
+</body>
+<script>
+    let video = document.querySelector('#videoElement')
+
+    if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({
+                video: true
+            })
+            .then(function(stream) {
+                video.srcObject = stream;
+            })
+            .catch(function(error) {
+                console.log("Something went wrong!");
+            })
+    } else {
+        console.log("getUserMedia not supported");
+
+    }
+</script>
+
+</html>

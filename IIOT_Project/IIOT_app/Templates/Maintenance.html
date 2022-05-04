@@ -1,0 +1,67 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance</title>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <link rel="stylesheet" href="{% static '/Dashboard.css' %}">
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <a class="Logo" href="#">E<span>LS</span></a>
+            <a class="console" href="{% url 'console' %}">Console</a>
+            <a class="dashboard" href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="anlysis" href="{% url 'analysis' %}">Analysis</a>
+            <a class="webv" href="{% url 'webvideo' %}">Web Video</a>
+            <ul class="secondary-nav">
+                <li class="logout header-logout"><a href="{% url 'login_page' %}">Logout</a></li>
+                <li><img class="im" src="{% static '/SACASL.jpeg' %}" alt="logo"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main">
+        <input type="number" id="num" name="m1prevhours">
+        <button type="submit" onclick="getvalue()"></button>
+        <p id="m1run">14</p>
+        <p id="m1rem">0</p>
+
+    </div>
+
+
+
+
+</body>
+
+
+<script>
+    function getvalue() {
+        var x = document.getElementById('num').value;
+        console.log(x);
+        var runhrs = document.getElementById('m1run').textContent;
+        var remhrs = (x-runhrs);
+        document.getElementById('m1rem').textContent = remhrs;
+        console.log(remhrs);
+        if (x == 41) {
+            alert("mail sent");
+            Email.send({
+            Host: "smtp.gmail.com",
+            Username: "shahsacas@gmail.com",
+            Password: "Sacas@407",
+            To: 'romilshhah@gmail.com',
+            From: "shahsacas@gmail.com",
+            Subject: "Prev",
+            Body: "motor temp is",
+            }).then(
+                message => alert("mail sent successfully")
+            );
+        }
+    }
+</script>
+</html>

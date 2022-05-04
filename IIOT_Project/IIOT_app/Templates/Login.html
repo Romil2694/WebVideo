@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBR IOT</title>
+    <link rel="stylesheet" href="{% static '/Login.css' %}">
+
+</head>
+<body>
+
+     <div class="navbar">
+         <div class="container">
+            <a class= "Logo" href="#">E<span>LS</span></a>
+            <img class="im" src="{% static '/SACASL.jpeg' %}" alt="logo">
+
+
+         </div>
+     </div>
+
+     <section class="platrform">
+        <div class="container">
+
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <label class="usrnm" for="name">Username</label>
+                    <input type="text" class="usern" id="name" name="username" placeholder="Username">
+
+                    <label class="pass" for="password">Password</label>
+                    <input type="password" class="passw" id="password" name="password" placeholder="Password">
+
+                    <input type="submit" class="login-cta" value="LOGIN">
+
+
+
+
+                   </form>
+            </div>
+
+
+    </section>
+</body>
+</html>

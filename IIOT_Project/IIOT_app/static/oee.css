@@ -1,0 +1,159 @@
+.oee-row {
+    display: block;
+    background: #394264;
+    width: 25%;
+    height: 50%;
+    padding: 40px;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.oeecontainer {
+    display: flex;
+}
+
+.oeecontainer .box h2 {
+    display: block;
+    text-align: center;
+    color: gray;
+}
+
+.oeecontainer .box {
+    width: 100%;
+}
+
+.oeecontainer .box canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    width: 100%;
+}
+
+.oeecontainer .box .avail {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 40px;
+    line-height: 160px;
+    height: 160px;
+    color: #fff;
+}
+
+.oeecontainer .perbox h2 {
+    display: block;
+    text-align: center;
+    color: gray;
+}
+
+.oeecontainer .perbox {
+    width: 100%;
+    margin-left: 10%;
+}
+
+.oeecontainer .perbox canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    width: 100%;
+}
+
+.oeecontainer .perbox .perf {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 40px;
+    line-height: 160px;
+    height: 160px;
+    color: #fff;
+}
+
+.oeecontainer2 {
+    display: flex;
+    margin-top: 10%;
+}
+
+.oeecontainer2 .box {
+    width: 100%;
+}
+
+.oeecontainer2 .box h2 {
+    display: block;
+    text-align: center;
+    color: gray;
+}
+
+.oeecontainer2 .box canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    width: 100%;
+}
+
+.oeecontainer2 .box .qlty {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 40px;
+    line-height: 160px;
+    height: 160px;
+    color: #fff;
+}
+
+.oeecontainer2 .oeebox {
+    width: 100%;
+    margin-left: 10%;
+}
+
+.oeecontainer2 .oeebox h2 {
+    display: block;
+    text-align: center;
+    color: gray;
+}
+
+.oeecontainer2 .oeebox canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    width: 100%;
+}
+
+.oeecontainer2 .oeebox .oee {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 40px;
+    line-height: 160px;
+    height: 160px;
+    color: #fff;
+}
+
+.bpoeecontainer {
+    display: flex;
+    margin-left: 10%;
+}
+
+.bpoeecontainer .bpoeeboxbox {
+    width: 100%;
+}
+
+.bpoeecontainer .bpoeebox h2 {
+    display: block;
+    text-align: center;
+    color: #fff;
+}
+
+.bpoeechart {
+    color: #fff;
+    text-align: center;
+    font-size: 30;
+}

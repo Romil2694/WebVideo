@@ -1,0 +1,75 @@
+{% load static %}
+
+<html>
+
+<head>
+     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="{% static '/Console.css' %}">
+    <title>3D Test</title>
+    <style>
+        model-viewer {
+            width: 1000px;
+            height: 1000px;
+            margin: 0 auto;
+        }
+
+        button {
+            display: block;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            border: none;
+            background-color: blue;
+            box-sizing: border-box;
+        }
+
+        .HotspotAnnotation {
+            background-color: #888888;
+            position: absolute;
+            transform: translate(10px, 10px);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        /* This keeps child nodes hidden while the element loads */
+
+         :not(:defined)>* {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+ <div class="navbar">
+        <div class="container">
+            <a class="Logo" href="#">E<span>LS</span></a>
+            <a class="dashboard" href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="anlysis" href="{% url 'analysis' %}">Analysis</a>
+            <a class="maintenance" href="{% url 'maintenance' %}">Maintenance</a>
+            <a class="webv" href="{% url 'webvideo' %}">Web Video</a>
+            <ul class="secondary-nav">
+                <li class="logout header-logout"><a href="{% url 'login_page' %}">Logout</a></li>
+                <li><img class="im" src="{% static '/SACASL.jpeg' %}" alt="logo"></li>
+            </ul>
+        </div>
+    </div>
+    <div id="holder">
+
+        <div id="model">
+            <model-viewer src="{% static '/Top link_Assembly.glb' %}" alt="A 3D model of a robot" camera-controls="" background-color="#455A64">
+                <button class="Hotspot" slot="hotspot-4" data-position="11.297345294954397m -385.5787747341958m 55.000000000000455m" data-normal="0m 0m 1m">
+                    <div class="HotspotAnnotation">Motor1 Temp</div>
+                </button>
+            </model-viewer>
+        </div>
+    </div>
+
+    <!-- Loads model-viewer for modern browsers -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+    <!-- Loads model-viewer for older browsers -->
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
+</body>
+
+</html>

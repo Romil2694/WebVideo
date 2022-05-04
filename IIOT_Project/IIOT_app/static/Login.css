@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+:root {
+    --bcolor: #0074F3;
+}
+
+body {
+    background: #1f253d;
+    margin: 0;
+    font-family: 'Poppins';
+}
+.navbar {
+    background: #F3654F;
+    padding: 1em;
+}
+
+.navbar .Logo {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin:0.6em;
+}
+
+.navbar .Logo span {
+    color: var(--bcolor);
+}
+
+.navbar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: unset;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0;
+    height: 75px;
+}
+
+.im {
+    width: 150px;
+    height: 70px;
+    position:fixed;
+    left: 90%;
+    top: 0.2%;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: unset;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: auto;
+  padding: 0;
+}
+
+.container .im {
+  width: 10%;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+}
+
+label {
+  display: block;
+  font-size: 1.2em;
+  margin-left: 40em;
+}
+
+.usrnm {
+  margin-top: 20em;
+  color: white;
+}
+
+.pass {
+    color: white;
+}
+
+.platfor {
+  display: block;
+}
+
+.usern {
+  width: 25%;
+  padding: .8em;
+  margin-bottom: 1em;
+  margin-left: 57em;
+  border-radius: .3em;
+  border: 1px solid gray;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.passw {
+  width: 25%;
+  padding: .8em;
+  margin-bottom: 1em;
+  margin-left: 57em;
+  border-radius: .3em;
+  border: 1px solid gray;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.btn {
+  margin-top: 1em;
+}
+
+.login-cta {
+  display: block;
+  background-color: var(--bcolor);
+  color: white;
+  font-size: .8em;
+  font-weight: bold;
+  border: none;
+  border-radius: 5em;
+  padding: .8em 2em;
+  width: unset;
+  cursor: pointer;
+  margin-left: 60em;
+  margin-top: 2em;
+}
+/*# sourceMappingURL=login.css.map */

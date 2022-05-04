@@ -1,0 +1,464 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis</title>
+    <link rel="stylesheet" href="{% static '/Analysis.css' %}">
+    <link rel="stylesheet" href="{% static '/syncrostop.css' %}">
+    <link rel="stylesheet" href="{% static '/oee.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="container">
+            <a class="Logo" href="#">E<span>LS</span></a>
+
+            <a class="console" href="{% url 'console' %}">Console</a>
+            <a class="dashboard" href="{% url 'dashboard' %}">Dashboard</a>
+            <a class="maintenance" href="{% url 'maintenance' %}">Maintenance</a>
+            <a class="webv" href="{% url 'webvideo' %}">Web Video</a>
+
+            <ul class="secondary-nav">
+                <li class="logout header-logout"><a href="{% url 'login_page' %}">Logout</a></li>
+                <li><img class="im" src="{% static '/SACASL.jpeg' %}" alt="logo"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="main-row">
+
+            <div class="block1">
+                <div class="values">
+                    <div class="Totalprint-block">
+                        <h3 class="totalprinthead">Total Print</h3>
+                        <p class="totalprint">40 KM</p>
+                    </div>
+
+                    <div class="Reels-block">
+                        <h3 class="reels">Reels</h3>
+                        <p class="noofreels">3</p>
+                    </div>
+
+                    <div class="Goodprint-block">
+                        <h3 class="goodprinthead">Good Print</h3>
+                        <p class="goodprint">8 KM</p>
+                    </div>
+
+                    <div class="Powerconsp-block">
+                        <h3 class="powerconsphead">Power Consumption</h3>
+                        <p class="powerconsp">56 Kw/H</p>
+                    </div>
+                </div>
+
+                <div class="actualpr">
+                    <div style="padding: 150px; width: 100%; margin: auto;">
+                        <div stop-stepped-bar=''></div>
+                    </div>
+                    <script src="{% static '/syncrostop.js' %}"></script>
+                </div>
+
+                <div class="powervalues">
+                    <div class="predictedPowerconsp-block">
+                        <h3 class="predictedpowerconsphead">Predicted Power Consumption</h3>
+                        <p class="predictedpowerconsp">506 Kw/H</p>
+                    </div>
+
+                    <div class="usagepower-block">
+                        <h3 class="usagepowerhead">Usage Power</h3>
+                        <p class="usagepower">11 %</p>
+                    </div>
+
+                    <div class="totalpowerconsp-block">
+                        <h3 class="totalpowerconsphead">Reamining Usage</h3>
+                        <p class="totalpowerconsp">89 %</p>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+            <div class="oee-row">
+
+                <div class="oeecontainer">
+                    <div class="box">
+                        <h2>Availability</h2>
+                        <div id="available" class="avail" data-percent="90">
+
+                        </div>
+                    </div>
+
+                    <div class="perbox">
+                        <h2>Performance</h2>
+                        <div id="performance" class="perf" data-percent="75">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="oeecontainer2">
+                    <div class="box">
+                        <h2>Quality</h2>
+                        <div id="Quality" class="qlty" data-percent="75">
+                        </div>
+                    </div>
+
+                    <div class="oeebox">
+                        <h2>OEE</h2>
+                        <div id="OEE" class="oee" data-percent="75">
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="main-row1">
+            <div class="block2">
+                <p class="bphead">Best Performance</p>
+                <div class="bpvalues">
+                    <div class="avgspeed-block">
+                        <h3 class="avgspeedhead">Avg. Speed</h3>
+                        <p class="avgspeed">264 M/M</p>
+                    </div>
+
+                    <div class="prdct-block">
+                        <h3 class="prdcthead">Reels</h3>
+                        <p class="prdct">147 KM</p>
+                    </div>
+
+                    <div class="achieved-block">
+                        <h3 class="achievedhead">Target Achieved</h3>
+                        <p class="achieved">91%</p>
+                    </div>
+
+                    <div class="bpoeecontainer">
+                        <div class="bpoeebox">
+                            <h2>OEE</h2>
+                            <div id="BPOEE" class="bpoeechart" data-percent="85">85%</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="bpvalue2">
+                    <div class="unplanned-block">
+                        <h3 class="unplannedhead">Unplanned Stop</h3>
+                        <p class="unplanned">8</p>
+                    </div>
+
+                    <div class="planned-block">
+                        <h3 class="plannedhead">Planned Stop</h3>
+                        <p class="planned">2</p>
+                    </div>
+
+                    <div class="bppowerconsp-block">
+                        <h3 class="bppowerconsphead">Power Usage</h3>
+                        <p class="bppowerconsp">102 Kw/h</p>
+                    </div>
+
+                </div>
+
+                <div class="bpvalue3">
+                    <div class="mrunhrs-block">
+                        <h3 class="mrunhrshead">Run Hours</h3>
+                        <p class="mrunhrs">18</p>
+                    </div>
+
+                    <div class="mstophrs-block">
+                        <h3 class="mstophrshead">Stop Hours</h3>
+                        <p class="mstophrs">6</p>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+        $(function() {
+            $('.avail').easyPieChart({
+                size: 160,
+                barColor: "#36e617",
+                scaleLength: 0,
+                lineWidth: 15,
+                trackColor: "#525151",
+                lineCap: "circle",
+                animate: 500,
+            });
+        });
+
+        var datacontainer = document.getElementById('available');
+        var datavalue = parseInt(datacontainer.getAttribute('data-percent'));
+        var newval = 15;
+        datacontainer.setAttribute('data-percent', newval);
+        document.getElementById('available').textContent = newval + "%";
+        console.log(datavalue);
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.perf').easyPieChart({
+                size: 160,
+                barColor: "#36e617",
+                scaleLength: 0,
+                lineWidth: 15,
+                trackColor: "#525151",
+                lineCap: "circle",
+                animate: 500,
+            });
+        });
+
+        var datacontainer = document.getElementById('performance');
+        var datavalue = parseInt(datacontainer.getAttribute('data-percent'));
+        var newval = 5;
+        datacontainer.setAttribute('data-percent', newval);
+        document.getElementById('performance').textContent = newval + "%";
+        console.log(datavalue);
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.qlty').easyPieChart({
+                size: 160,
+                barColor: "#36e617",
+                scaleLength: 0,
+                lineWidth: 15,
+                trackColor: "#525151",
+                lineCap: "circle",
+                animate: 500,
+            });
+        });
+
+        var datacontainer = document.getElementById('Quality');
+        var datavalue = parseInt(datacontainer.getAttribute('data-percent'));
+        var newval = 95;
+        datacontainer.setAttribute('data-percent', newval);
+        document.getElementById('Quality').textContent = newval + "%";
+        console.log(datavalue);
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.oee').easyPieChart({
+                size: 160,
+                barColor: "#36e617",
+                scaleLength: 0,
+                lineWidth: 15,
+                trackColor: "#525151",
+                lineCap: "circle",
+                animate: 500,
+            });
+        });
+
+        var datacontainer = document.getElementById('OEE');
+        var datavalue = parseInt(datacontainer.getAttribute('data-percent'));
+        var newval = 65;
+        datacontainer.setAttribute('data-percent', newval);
+        document.getElementById('OEE').textContent = newval + "%";
+        console.log(datavalue);
+    </script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.bpoeechart').easyPieChart({
+                size: 160,
+                barColor: "#36e617",
+                scaleLength: 0,
+                lineWidth: 15,
+                trackColor: "#525151",
+                lineCap: "circle",
+                animate: 500,
+            });
+        });
+
+        var datacontainer = document.getElementById('BPOEE');
+        var datavalue = parseInt(datacontainer.getAttribute('data-percent'));
+        var newval = 65;
+        datacontainer.setAttribute('data-percent', newval);
+        document.getElementById('BPOEE').textContent = newval + "%";
+        console.log(datavalue);
+    </script>
+
+</body>
+
+<script>
+    var speedCanvas = document.getElementById("speedchart");
+
+    Chart.defaults.global.defaultFontFamily = "Lato";
+    Chart.defaults.global.defaultFontSize = 18;
+
+    var dataFirst = {
+        label: "Motor1",
+        data: [0, 50, 100, 150, 200, 250],
+        lineTension: 0,
+        fill: false,
+        borderColor: 'red'
+    };
+
+    var dataSecond = {
+        label: "Motor2",
+        data: [20, 15, 60, 60, 65, 30, 70],
+        lineTension: 0,
+        fill: false,
+        borderColor: 'blue'
+    };
+
+    var dataThird = {
+        label: "Motor3",
+        data: [20, 55, 60, 60, 65, 40, 70],
+        lineTension: 0,
+        fill: false,
+        borderColor: 'green'
+    };
+
+    var dataFour = {
+        label: "Motor4",
+        data: [0, 5, 12, 50, 65, 40, 90],
+        lineTension: 0,
+        fill: false,
+        borderColor: 'green'
+    };
+
+    var speedData = {
+        labels: ["0", "50", "100", "150", "200", "250", "300"],
+        datasets: [dataFirst, dataSecond, dataThird, dataFour]
+    };
+
+    var chartOptions = {
+        legend: {
+            display: true,
+            position: 'top',
+            labels: {
+                boxWidth: 80,
+                fontColor: 'black'
+            }
+        }
+    };
+
+    var lineChart = new Chart(speedCanvas, {
+        type: 'line',
+        data: speedData,
+        options: chartOptions
+    });
+</script>
+
+<script>
+    var options = {
+        type: 'bubble',
+        data: {
+            datasets: [{
+                label: 'MOTOR 1',
+                data: [{
+                    x: 250,
+                    y: 7,
+                    r: 10
+                }],
+                backgroundColor: "#FF5733",
+                hoverBackgroundColor: "#FF5733",
+            }, {
+                label: 'MOTOR 2',
+                data: [{
+                    x: 250,
+                    y: 2,
+                    r: 10
+                }],
+                backgroundColor: "#FFBD33",
+                hoverBackgroundColor: "#FFBD33"
+            }, {
+                label: 'MOTOR 3',
+                data: [{
+                    x: 250,
+                    y: 6,
+                    r: 10
+                }],
+                backgroundColor: "#33FFBD",
+                hoverBackgroundColor: "#33FFBD"
+            }, {
+                label: 'MOTOR 4',
+                data: [{
+                    x: 250,
+                    y: 3,
+                    r: 10
+                }],
+                backgroundColor: "#DBFF33",
+                hoverBackgroundColor: "#DBFF33"
+            }, {
+                label: 'MOTOR 5',
+                data: [{
+                    x: 250,
+                    y: 1,
+                    r: 10
+                }],
+                backgroundColor: "#75FF33",
+                hoverBackgroundColor: "#75FF33"
+            }, {
+                label: 'MOTOR 6',
+                data: [{
+                    x: 250,
+                    y: 3,
+                    r: 10
+                }],
+                backgroundColor: "#33FF57",
+                hoverBackgroundColor: "#33FF57"
+            }, {
+                label: 'MOTOR 7',
+                data: [{
+                    x: 250,
+                    y: 1,
+                    r: 10
+                }],
+                backgroundColor: "#A62307",
+                hoverBackgroundColor: "#A62307"
+            }, {
+                label: 'MOTOR 8',
+                data: [{
+                    x: 250,
+                    y: 2,
+                    r: 10
+                }],
+                backgroundColor: "#ff6384",
+                hoverBackgroundColor: "#ff6384"
+            }],
+            scales: {
+                ticks: {
+                    xAxes: {
+                        fontColor: 'red',
+                    }
+                }
+            }
+
+        }
+    }
+
+    var ctx = document.getElementById('chartJSContainer').getContext('2d');
+    new Chart(ctx, options);
+</script>
+
+</html>
